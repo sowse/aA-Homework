@@ -56,11 +56,98 @@ combinations.
 function greedyMakeChange(target, coins = [25, 10, 5, 1]) {
   // no tests for greedyMakeChange so make sure to test this on your own
   // your code here
+  //debugger;
+  let change;
+  if(target === 0) {
+    debugger;
+    change = [];
+    return change;
+  }
+  for(let i = 0; i < coins.length; i++) {
+    let coin = coins[i];
+    if(target - coin >= 0) {
+      change = greedyMakeChange(target-coin, coins);
+      if(change === null) {
+        return null;
+      } else {
+        change.push(coin);
+        return change;
+      }
+    }
+  }
+  return null;
+}
+
+function splitChecker(target, coins = [25, 10, 5, 1]) {
+  let splitCoins = [];
+  let smallest_coin = coins[coins.length - 1];
+  for(let i = 0; i < coins.length; i++) {
+    let coin = coins[i];
+    if(target-coin >= 0) {
+      splitCoins.push(coin);
+    }
+  }
+  
+  if(splitCoins.length === 0 || (splitCoins.length === 1 && target % splitCoins[0] != 0)){
+    return null;
+  } else {
+    return splitCoins;
+  }
+}
+
+function coinFill(target, coin) {
+  //debugger;
+  let times = target / coin;
+  let new_change = [];
+  for(let i = 0; i < times; i++) {
+    new_change.push(coin);
+  }
+
+  return new_change;
 }
 
 function makeBetterChange(target, coins = [25, 10, 5, 1]) {
   // your code here
+  if(target === 0) {
+    return [];
+  }
+
+  let possible_change = splitChecker(target, coins);
+  let smallest = Infinity;
+  let ideal_change = [];
+
+  if(possible_change === null) {
+    return possible_change;
+  } else if(possible_change.length === 1) {
+    return coinFill(target, ...possible_change);
+  } else {
+    for(let i = 0; i < possible_change.length; i++) {
+      let coin = possible_change[i];
+      if(i === 0 && target % coin === 0) {
+        return coinFill(target, coin);
+      }
+      let previous_change = makeBetterChange(target-coin, possible_change);
+        if(previous_change === null) {
+          return previous_change;
+        }
+      previous_change.push(coin);
+      if(previous_change.length < smallest) {
+        smallest = previous_change.length;
+        ideal_change = previous_change;
+      }
+    }
+  }
+
+  return ideal_change;
+
 }
+
+
+console.log(makeBetterChange(21)); // [1, 10, 10]
+console.log(makeBetterChange(75)); // [25, 25, 25]
+console.log(makeBetterChange(33, [15, 3])); // [3, 15, 15]
+console.log(makeBetterChange(34, [15, 3])); // null
+console.log(makeBetterChange(24, [10, 7, 1])); // [7, 7, 10]
 
 
 /**************DO NOT MODIFY ANYTHING UNDER THIS LINE*****************/
