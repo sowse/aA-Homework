@@ -65,7 +65,32 @@ The call above should return the tree below:
 
 const makeTree = (categories, parent) => {
   // your code here
+  debugger;
+  let tree = {};
+  for(let i = 0; i < categories.length; i++) {
+    let child = categories[i].id;
+    let child_parent = categories[i].parent;
+    if(child_parent === parent) {
+      tree[child] = makeTree(categories, child);
+    }
+  }
+  
+  return tree;
 };
+
+const categories2 = [
+  { id: 'animals', 'parent': null },
+  { id: 'mammals', 'parent': 'animals' },
+  { id: 'cats', 'parent': 'mammals' },
+  { id: 'dogs', 'parent': 'mammals' },
+  { id: 'chihuahua', 'parent': 'dogs' },
+  { id: 'labrador', 'parent': 'dogs' },
+  { id: 'persian', 'parent': 'cats' },
+  { id: 'siamese', 'parent': 'cats' }
+];
+
+console.log(makeTree(categories2, null));
+
 
 /**************DO NOT MODIFY ANYTHING UNDER THIS LINE*****************/
 try {
