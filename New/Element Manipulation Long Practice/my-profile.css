@@ -1,0 +1,11 @@
+.name {
+    color: green;
+}
+
+.my-details {
+    border: 5px solid black;
+}
+
+li:hover {
+    color: green;
+}

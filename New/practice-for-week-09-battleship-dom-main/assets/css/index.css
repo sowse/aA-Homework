@@ -1,0 +1,25 @@
+/* Your code here */
+
+#board {
+    width: 800px;
+    height: 800px;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 5px; 
+}
+
+.cell {
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.green {
+    background-color: green;    
+}
+
+.red {
+    background-color: red;
+}
